@@ -3,7 +3,7 @@ import org.nemomobile.dbus 2.0
 
 
 DBusInterface {
-    // http://nemo-qml-plugin-dbus.readthedocs.io/en/latest/
+// http://nemo-qml-plugin-dbus.readthedocs.io/en/latest/
     id: iface
 
     property Timer timer: Timer {
@@ -14,12 +14,10 @@ DBusInterface {
             iface.getProps();
         }
     }
-
     service: "org.freedesktop.systemd1"
-//    path: "/org/freedesktop/systemd1/unit/avahi_2ddaemon_2esocket"
+    path: "/org/freedesktop/systemd1/unit/avahi_2ddaemon_2esocket"
     iface: "org.freedesktop.systemd1.Unit"
     bus: DBus.SessionBus
-    //    signalsEnabled: true
 
     property string activeState: getProperty("ActiveState")
     property string subState: getProperty("SubState")

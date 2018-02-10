@@ -18,26 +18,43 @@ ApplicationWindow
         path: '/apps/harbour-snapcast-ctl'
     }
 
-    SnapclientDbus {
-        id: snapclientDbus
+    SystemdUnit {
+        id: snapclientUserService
+        path: "/org/freedesktop/systemd1/unit/snapclient_2eservice"
     }
 
-    SnapserverDbus {
-        id: snapserverDbus
+    SystemdUnit {
+        id: snapserverUserService
+        path: "/org/freedesktop/systemd1/unit/snapserver_2eservice"
     }
 
-    AvahiDbus {
-        id: avahiDbus
+    SystemdUnit {
+        id: snapserverUserSocket
+        path: "/org/freedesktop/systemd1/unit/snapserver_2esocket"
     }
 
-    Timer {
-        interval: 1000;
-        running: true;
-        repeat: true;
-        onTriggered: {
-//            snapclientDbus.getProps();
-            snapserverDbus.getProps();
-        }
+    SystemdUnit {
+        id: snapserverSystemService
+        path: "/org/freedesktop/systemd1/unit/snapserver_2eservice"
+        bus: DBus.SystemBus
+    }
+
+    SystemdUnit {
+        id: snapserverSystemSocket
+        path: "/org/freedesktop/systemd1/unit/snapserver_2esocket"
+        bus: DBus.SystemBus
+    }
+
+    SystemdUnit {
+        id: avahiService
+        path: "/org/freedesktop/systemd1/unit/avahi_2ddaemon_2eservice"
+        bus: DBus.SystemBus
+    }
+
+    SystemdUnit {
+        id: avahiSocket
+        path: "/org/freedesktop/systemd1/unit/avahi_2ddaemon_2esocket"
+        bus: DBus.SystemBus
     }
 
     DBusInterface {

@@ -1,6 +1,6 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-
+import "../components"
 
 Page {
     id: page
@@ -30,78 +30,23 @@ Page {
 
             width: page.width
             spacing: Theme.paddingLarge
-            PageHeader {
-                title: qsTr("Snapcast")
-            }
-            SectionHeader {
-                text: qsTr("Snapclient")
-            }
+            PageHeader { title: qsTr("Snapcast") }
 
-            Row {
-                x: Theme.horizontalPageMargin
-                spacing: Theme.paddingLarge
-                IconButton {
-                    icon.source: "image://theme/icon-l-" +
-                                 (snapclientDbus.activeState == "active" ?
-                                      "pause" : "play")
-                    onClicked: snapclientDbus.toggleUnit()
-                }
+            SectionHeader { text: qsTr("Snapclient") }
+            UnitRow { unit: snapclientUserService }
 
-                Label {
-                    text: snapclientDbus.activeState + "(" + snapclientDbus.subState + ")"
-                }
-            }
-            SectionHeader {
-                text: qsTr("Snapserver")
-            }
-            Row {
-                x: Theme.horizontalPageMargin
-                spacing: Theme.paddingLarge
-                IconButton {
-                    icon.source: "image://theme/icon-l-" +
-                                 (snapserverDbus.activeState == "active" ?
-                                      "pause" : "play")
-                    onClicked: snapserverDbus.toggleUnit()
-                }
+            SectionHeader { text: qsTr("Snapserver (User)") }
+            UnitRow { unit: snapserverUserService }
+            UnitRow { unit: snapserverUserSocket }
 
-                Label {
-                    text: snapserverDbus.activeState + "(" + snapserverDbus.subState + ")"
-                }
-            }
-            SectionHeader {
-                text: qsTr("Avhai")
-            }
+            SectionHeader { text: qsTr("Snapserver (System)") }
+            UnitRow { unit: snapserverSystemService }
+            UnitRow { unit: snapserverSystemSocket }
 
-            Row {
-                x: Theme.horizontalPageMargin
-                spacing: Theme.paddingLarge
+            SectionHeader { text: qsTr("Avhai") }
+            UnitRow { unit: avahiService }
+            UnitRow { unit: avahiSocket }
 
-                GlassItem {
-                    id: indicator
-                    property bool checked: avahiDbus.activeState == "active"
-                    property bool busy: avahiDbus.activeState === "activating" ||  avahiDbus.activeState === "deactivating"
-//                    anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.verticalCenter: parent.verticalCenter
-                    opacity: parent.enabled ? 1.0 : 0.4
-                    dimmed: !checked
-                    falloffRadius: checked ? defaultFalloffRadius : 0.075
-                    Behavior on falloffRadius {
-                        NumberAnimation { duration: busy ? 450 : 50; easing.type: Easing.InOutQuad }
-                    }
-                    // KLUDGE: Behavior and State don't play well together
-                    // http://qt-project.org/doc/qt-5/qtquick-statesanimations-behaviors.html
-                    // force re-evaluation of brightness when returning to default state
-                    brightness: { return 1.0 }
-                    Behavior on brightness {
-                        NumberAnimation { duration: busy ? 450 : 50; easing.type: Easing.InOutQuad }
-                    }
-                    color: checked ? "green" : "red"
-                }
-                Label {
-                    anchors.verticalCenter: parent.verticalCenter
-                    text: avahiDbus.activeState + "(" + avahiDbus.subState + ")"
-                }
-            }
         }
     }
 }
