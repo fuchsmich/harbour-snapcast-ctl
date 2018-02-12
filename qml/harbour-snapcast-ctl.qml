@@ -57,19 +57,5 @@ ApplicationWindow
         bus: DBus.SystemBus
     }
 
-    DBusInterface {
-
-        service: "org.freedesktop.systemd1"
-        path: "/org/freedesktop/systemd1/unit/snapclient_2eservice"
-        iface: "org.freedesktop.DBus.Properties"
-        signalsEnabled: true
-
-        function propertiesChanged( _interface, changed_properties, invalidated_properties) {
-            console.debug("propertiesChanged!")
-//            getProps();
-        }
-    }
-
-
 }
 

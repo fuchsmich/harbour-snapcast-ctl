@@ -58,4 +58,26 @@ Page {
         }
         VerticalScrollDecorator {}
     }
+
+
+    function request() {
+        var doc = new XMLHttpRequest();
+        doc.onreadystatechange = function() {
+            if (doc.readyState == XMLHttpRequest.HEADERS_RECEIVED) {
+                console.log("Headers -->");
+                console.log(doc.getAllResponseHeaders ());
+                console.log("Last modified -->");
+                console.log(doc.getResponseHeader ("Last-Modified"));
+
+            } else if (doc.readyState == XMLHttpRequest.DONE) {
+                var a = doc.responseText;
+                console.log("Headers -->");
+                console.log(doc.getAllResponseHeaders ());
+                console.log("Last modified -->");
+                console.log(doc.getResponseHeader ("Last-Modified"));
+            }
+        }
+        doc.open("POST", "localhost:1705")
+        doc.send('{"id":1,"jsonrpc":"2.0","method":"Server.GetRPCVersion"}')
+    }
 }

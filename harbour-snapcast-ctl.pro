@@ -24,10 +24,9 @@ DISTFILES += qml/harbour-snapcast-ctl.qml \
     rpm/harbour-snapcast-ctl.yaml \
     translations/*.ts \
     harbour-snapcast-ctl.desktop \
-    qml/components/SnapserverDbus.qml \
-    qml/components/AvahiDbus.qml \
     qml/components/SystemdUnit.qml \
-    qml/components/UnitRow.qml
+    qml/components/UnitRow.qml \
+    qml/pages/FirstPage_kopie.qml
 
 SAILFISHAPP_ICONS = 86x86 108x108 128x128
 
