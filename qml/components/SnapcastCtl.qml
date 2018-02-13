@@ -1,0 +1,19 @@
+import QtQuick 2.0
+import io.thp.pyotherside 1.4
+
+Python {
+    id: py
+
+    property Item client: Item {
+        function getStatus() {
+
+        }
+    }
+
+    property Item server: Item {
+        function getRPCVersion() {
+
+        }
+    }
+
+}

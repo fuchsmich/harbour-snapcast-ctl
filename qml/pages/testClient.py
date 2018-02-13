@@ -22,7 +22,7 @@ class ReaderThread(threading.Thread):
 
     def run(self):
         while (not self.stop_event.is_set()):
-            response = self.tn.read_until("\r\n", 2)
+            response = self.tn.read_until(b"\r\n", 2).decode('ascii')
             if response:
                 print("received: " + response)
                 jresponse = json.loads(response)
@@ -32,24 +32,28 @@ class ReaderThread(threading.Thread):
 
 
 def doRequest( str ):
-    print("send: " + str)
-    telnet.write(str)
+    pyotherside.send('log', "send: " + str)
+    str = str + "\r\n"
+    telnet.write(str.encode('ascii'))
     time.sleep(1)
     return;
 
 
+t_stop= threading.Event()
+t = ReaderThread(telnet, t_stop)
+t.start()
+
 def test():
-    t_stop= threading.Event()
-    t = ReaderThread(telnet, t_stop)
-    t.start()
-    doRequest("{\"jsonrpc\": \"2.0\", \"method\": \"Server.GetStatus\", \"id\": 1}\r\n")
-    s = raw_input("")
+    doRequest("{\"jsonrpc\": \"2.0\", \"method\": \"Server.GetStatus\", \"id\": 1}")
+    s = input("")
     print(s)
+
+def dest():
     t_stop.set();
     t.join()
     telnet.close
 
-
+pyotherside.send('log', sys.version)
 
 '''
 doRequest("{\"jsonrpc\": \"2.0\", \"method\": \"Client.SetStream\", \"params\": {\"client\": \"a0:b4:a5:3a:f1:db\", \"id\": \"file:///home/johannes/Musik/AnetteLouisiane.wav\"}, \"id\": 3}\r\n")

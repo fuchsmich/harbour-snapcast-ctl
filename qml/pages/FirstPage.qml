@@ -1,8 +1,6 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import "../components"
-import io.thp.pyotherside 1.4
-
 
 Page {
     id: page
@@ -18,7 +16,7 @@ Page {
         PullDownMenu {
             MenuItem {
                 text: qsTr("Show Page 2")
-                onClicked: pageStack.push(Qt.resolvedUrl("SecondPage.qml"))
+                onClicked: pageStack.push(Qt.resolvedUrl("Python.qml"))
             }
         }
 
@@ -34,31 +32,21 @@ Page {
             spacing: Theme.paddingLarge
             PageHeader { title: qsTr("Snapcast") }
 
-            Button {
-                width: Theme.buttonWidthLarge
-                text: "POST"
-                onClicked: python.request()
-            }
+            SectionHeader { text: qsTr("Snapclient") }
+            UnitRow { unit: snapclientUserService }
 
-            TextArea {
-                id: ta
-                width: parent.width
-            }
-        }
-    }
+            SectionHeader { text: qsTr("Snapserver (User)") }
+            UnitRow { unit: snapserverUserService }
+            UnitRow { unit: snapserverUserSocket }
 
-    Python {
-        id: python
-        Component.onCompleted: {
-            addImportPath(Qt.resolvedUrl('.'));
-            setHandler('response', function(response){
-                console.log(response);
-            });
-            importModule('testClient', function() {});
-        }
+            SectionHeader { text: qsTr("Snapserver (System)") }
+            UnitRow { unit: snapserverSystemService }
+            UnitRow { unit: snapserverSystemSocket }
 
-        function request() {
-            call('testClient.test', function() {});
+            SectionHeader { text: qsTr("Avhai") }
+            UnitRow { unit: avahiService }
+            UnitRow { unit: avahiSocket }
+
         }
     }
 }
