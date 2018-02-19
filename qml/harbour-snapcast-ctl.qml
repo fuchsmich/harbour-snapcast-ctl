@@ -9,7 +9,7 @@ import "components"
 
 ApplicationWindow
 {
-    initialPage: Component { FirstPage { } }
+    initialPage: Component { Python { } }
     cover: Qt.resolvedUrl("cover/CoverPage.qml")
     allowedOrientations: defaultAllowedOrientations
 
@@ -55,6 +55,10 @@ ApplicationWindow
         id: avahiSocket
         path: "/org/freedesktop/systemd1/unit/avahi_2ddaemon_2esocket"
         bus: DBus.SystemBus
+    }
+
+    SnapcastCtl {
+        id: snapcastCtl
     }
 
 }
