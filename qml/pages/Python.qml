@@ -40,6 +40,11 @@ Page {
             SectionHeader {
                 text: qsTr("Server")
             }
+            Button {
+                text: "connect"
+                anchors.horizontalCenter: parent.horizontalCenter
+                onClicked: snapcastCtl.call('mysnapctl.snapserver.start', function() {})
+            }
 
         }
     }

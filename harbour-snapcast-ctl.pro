@@ -26,7 +26,8 @@ DISTFILES += qml/harbour-snapcast-ctl.qml \
     qml/components/SystemdUnit.qml \
     qml/components/UnitRow.qml \
     qml/pages/Python.qml \
-    qml/pages/FirstPage.qml
+    qml/pages/FirstPage.qml \
+    qml/python/mysnapcastl.py
 
 SAILFISHAPP_ICONS = 86x86 108x108 128x128
 
