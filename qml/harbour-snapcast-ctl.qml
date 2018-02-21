@@ -9,7 +9,7 @@ import "components"
 
 ApplicationWindow
 {
-    initialPage: Component { Python { } }
+    initialPage: Component { Server { } }
     cover: Qt.resolvedUrl("cover/CoverPage.qml")
     allowedOrientations: defaultAllowedOrientations
 

@@ -1,64 +1,130 @@
 #!/usr/bin/python3
 
 import sys
-import os
-import logging
-import argparse
+#import os
 import asyncio
-import json
+#import json
+import pyotherside
 
-import snapcast.control
+from snapcast.control.server import Snapserver, CONTROL_PORT
+from snapcast.control import create_server
+
+#for mon
+import signal
+import functools
+
+def log(string):
+    pyotherside.send('log', string)
 
 class SnapController(object):
 
-    def __init__(self, serverstring="127.0.0.1", verbose=0, debug=False):
-       self._verbose = verbose
-       self._debug = debug
+    def _run(self, coro):
+        return self._loop.run_until_complete(coro)
 
-       # Setup logging
-       self._log = logging.getLogger('SnapController')
-       if self._debug:
-          logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+    def __init__(self, host="127.0.0.1", port=CONTROL_PORT):
+        self._host = host
+        self._port = port
+        log('connecting to snapserver on {}:{}'.format(self._host, self._port))
 
-       # Parse the server string
-       try:
-          self._host, self._port = serverstring.split(':')
+        self._loop = asyncio.get_event_loop()
+        reconnect = True
+        self.server = self._run(create_server(self._loop, self._host, self._port))
+        self.server.set_on_connect_callback(self.onServerConnect)
+        self.server.set_new_client_callback(self.onClientConnect)
+        self.server.start()
 
-       except ValueError:
-          self._host = serverstring
-          self._port = snapcast.control.CONTROL_PORT
 
-       else:
-          self._port   = int(self._port)
+    def onServerConnect(self):
+        log('Server connected! {}:{}'.format(self._host, self._port))
 
-       self._log.info('connecting to snapserver on %s:%s', self._host, self._port)
+    def onClientConnect(self, client):
+        log('log', 'client {} connected'.format(client.friendly_name))
 
-       self._loop = asyncio.get_event_loop()
-       self._snapserver = self._loop.run_until_complete(self._update_status())
+    def serverStatus(self):
+        pyotherside.send('serverStatus', self._run(self.server.status()))
 
-    # Client information
-    def showClient(self, client, multiline=True):
-       if(type(client) is str):
-          client = self._clientByNameOrId(client)
+    def test(self):
+        log(self.server.version)
+        log(len(self.server.clients))
+        log(len(self.server.groups))
+        log(len(self.server.streams))
+        log(self._loop.is_running())
 
-       clientname = getdefault(client.name, '-noname-')
-       groupname = getdefault(client.group.name, '-noname-')
 
-       if multiline or self._verbose:
-          print('Client ID  : %s' %(client.identifier))
-          print('   name    : %s' %(clientname))
-          print('   host    : %s' %(client.hostname))
-          print('   group   : %s' %(groupname))
-          print('   muted   : %s' %(client.muted))
-          print('   online  : %s' %(client.connected))
-          print()
+#def serverStatus():
+#    pyotherside.send('log', "heast!!", isinstance(controller, SnapController))
+#    pyotherside.send('log', controller._loop.is_running())
+#    controller.serverStatus()
 
-       elif client.connected:
-          print('%s (%s)' %(clientname, groupname))
-
-    def showAllClients(self):
-        for client in self._snapserver.clients:
-            self.showClient(client, multiline=False)
 
 controller = SnapController()
-controller.showAllClients()
+controller.serverStatus()
+#serverStatus()
+controller.test()
+
+
+def mon():
+
+    def _run(coro):
+        return loop.run_until_complete(coro)
+
+    def run_cmd(loop, server, port):
+       return (yield from create_server(loop, server, port))
+
+    def shutdown(signame):
+        for task in asyncio.Task.all_tasks():
+            task.cancel()
+
+    def OnGroupUpdate(group):
+        stream = snapserver.stream(group.stream)
+        title = tag(stream.meta,'TITLE', '<unknown>')
+        artist = tag(stream.meta,'ARTIST', '<unknown>')
+        log("Zone '%s' playing '%s' by '%s'" %(group.friendly_name, title, artist))
+
+    def OnNewClient(client):
+        client.set_callback(OnClientUpdate)
+        log('new client {}'.format(client.friendly_name))
+
+    def OnClientUpdate(client):
+        log('client {} updated'.format(client.friendly_name))
+
+    @asyncio.coroutine
+    def run_status(loop, snapserver):
+        while True:
+            yield from asyncio.sleep(1)
+
+
+    port = CONTROL_PORT
+    server = '127.0.0.1'
+
+    log("Connecting to %s port %d" %(server, port))
+    loop = asyncio.get_event_loop()
+
+    for signame in ('SIGINT', 'SIGTERM'):
+        loop.add_signal_handler(getattr(signal, signame), functools.partial(shutdown, signame))
+
+    try:
+        snapserver = _run(create_server(loop, server, port))
+        #loop.run_until_complete(run_cmd(loop, server, port))
+
+    except OSError:
+        log("Can't connect to %s:%d" %(server, port))
+        return
+
+    for client in snapserver.clients:
+        client.set_callback(OnClientUpdate)
+
+    snapserver.set_new_client_callback(OnNewClient)
+
+    log("Connected?")
+    status = _run(snapserver.status())
+    log(status)
+
+    try:
+        loop.run_until_complete(run_status(loop, snapserver))
+
+    except CancelledError:
+        pass
+
+    log("Exiting!?")
+    loop.close()

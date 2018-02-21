@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import "../components"
-import io.thp.pyotherside 1.4
+//import io.thp.pyotherside 1.4
 
 
 Page {
@@ -18,15 +18,13 @@ Page {
         PullDownMenu {
             MenuItem {
                 text: qsTr("Services")
-                onClicked: pageStack.push(Qt.resolvedUrl("FirstPage.qml"))
+                onClicked: pageStack.push(Qt.resolvedUrl("Services.qml"))
             }
         }
 
         // Tell SilicaFlickable the height of its content.
         contentHeight: column.height
 
-        // Place our content in a Column.  The PageHeader is always placed at the top
-        // of the page, followed by our content.
         Column {
             id: column
 
@@ -34,7 +32,8 @@ Page {
             spacing: Theme.paddingLarge
             PageHeader {
                 title: qsTr("Snapcast")
-                description: qsTr("Server: ") + snapcastCtl.sn
+                description: qsTr("Server: ") + snapcastCtl.serverString
+
             }
 
             SectionHeader {
@@ -43,9 +42,18 @@ Page {
             Button {
                 text: "connect"
                 anchors.horizontalCenter: parent.horizontalCenter
-                onClicked: snapcastCtl.call('mysnapctl.snapserver.start', function() {})
+                onClicked: snapcastCtl.call('snapcontroller.mon', function() {})
             }
-
+            Button {
+                text: "status"
+                anchors.horizontalCenter: parent.horizontalCenter
+                onClicked: snapcastCtl.getServerStatus()
+            }
+            TextArea {
+                readOnly: true
+                text: snapcastCtl.log
+                width: parent.width
+            }
         }
     }
 }
