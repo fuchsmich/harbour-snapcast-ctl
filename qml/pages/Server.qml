@@ -41,13 +41,41 @@ Page {
             }
             Button {
                 text: "connect"
+                enabled: !snapcastCtl.connected
                 anchors.horizontalCenter: parent.horizontalCenter
-                onClicked: snapcastCtl.call('snapcontroller.mon', function() {})
+                onClicked: snapcastCtl.connect()
             }
-            Button {
-                text: "status"
-                anchors.horizontalCenter: parent.horizontalCenter
-                onClicked: snapcastCtl.getServerStatus()
+            SectionHeader {
+                text: "Groups"
+            }
+            Repeater {
+                model: snapcastCtl.groups
+                Column {
+                    id: gCol
+                    property int gIndex: model.index
+                    width: column.width
+                    BackgroundItem {
+                        width: column.width
+                        Label {
+                            text: "Group: " +
+                                  snapcastCtl.groups[gCol.gIndex].stream_id
+                        }
+                    }
+                    Repeater {
+                        model: snapcastCtl.groups[gCol.gIndex].clients
+                        BackgroundItem {
+                            width: column.width
+                            Label {
+                                text: "Client: " +
+                                      snapcastCtl.groups[gCol.gIndex].clients[model.index].id
+                            }
+                        }
+                    }
+                }
+            }
+
+            SectionHeader {
+                text: "log"
             }
             TextArea {
                 readOnly: true

@@ -1,0 +1,33 @@
+{
+	"server":{
+		"groups":[{
+			"clients":[{
+				"config":{"instance":1,"latency":0,"name":"","volume":{"muted":false,"percent":100}},
+				"connected":false,
+				"host":{"arch":"i686","ip":"::ffff:10.220.220.1","mac":"08:00:27:ae:f7:65","name":"SailfishEmul","os":"Mer release 0.2011 (Mer)"},
+				"id":"85ae19c534034eac9ca6076038b8f125",
+				"lastSeen":{"sec":1519208967,"usec":545293},
+				"snapclient":{"name":"Snapclient","protocolVersion":2,"version":"0.12.0"}
+			}],
+			"id":"c298bae1-ca8c-010f-869e-8ea85697b8d4",
+			"muted":false,
+			"name":"",
+			"stream_id":"default"
+		}],
+		"server":{
+			"host":{"arch":"i686","ip":"","mac":"","name":"SailfishEmul","os":"Mer release 0.2011 (Mer)"},
+			"snapserver":{"controlProtocolVersion":1,"name":"Snapserver","protocolVersion":1,"version":"0.12.0"}
+		},
+		"streams":[{
+			"id":"default",
+			"status":"idle",
+			"uri":{"fragment":"",
+				"host":"",
+				"path":"/tmp/snapfifo",
+				"query":{"buffer_ms":"20","codec":"flac","name":"default","sampleformat":"48000:16:2"},
+				"raw":"pipe:////tmp/snapfifo?buffer_ms=20&codec=flac&name=default&sampleformat=48000:16:2",
+				"scheme":"pipe"
+			}
+		}]
+	}
+}

@@ -40,9 +40,6 @@ class SnapController(object):
     def onClientConnect(self, client):
         log('log', 'client {} connected'.format(client.friendly_name))
 
-    def serverStatus(self):
-        pyotherside.send('serverStatus', self._run(self.server.status()))
-
     def test(self):
         log(self.server.version)
         log(len(self.server.clients))
@@ -57,10 +54,10 @@ class SnapController(object):
 #    controller.serverStatus()
 
 
-controller = SnapController()
-controller.serverStatus()
+#controller = SnapController()
+#controller.serverStatus()
 #serverStatus()
-controller.test()
+#controller.test()
 
 
 def mon():
@@ -68,18 +65,12 @@ def mon():
     def _run(coro):
         return loop.run_until_complete(coro)
 
-    def run_cmd(loop, server, port):
-       return (yield from create_server(loop, server, port))
-
     def shutdown(signame):
         for task in asyncio.Task.all_tasks():
             task.cancel()
 
     def OnGroupUpdate(group):
-        stream = snapserver.stream(group.stream)
-        title = tag(stream.meta,'TITLE', '<unknown>')
-        artist = tag(stream.meta,'ARTIST', '<unknown>')
-        log("Zone '%s' playing '%s' by '%s'" %(group.friendly_name, title, artist))
+        log("Zone '%s' playing" %(group.friendly_name))
 
     def OnNewClient(client):
         client.set_callback(OnClientUpdate)
@@ -87,6 +78,22 @@ def mon():
 
     def OnClientUpdate(client):
         log('client {} updated'.format(client.friendly_name))
+
+    def getServerStatus():
+        pyotherside.send('serverStatus', _run(snapserver.status()))
+
+    def OnConnectedToServer():
+        pyotherside.send('connected', True)
+        getServerStatus()
+        for client in snapserver.clients:
+            client.set_callback(OnClientUpdate)
+        for group in snapserver.groups:
+            group.set_callback(OnGroupUpdate)
+        snapserver.set_new_client_callback(OnNewClient)
+
+    def OnDisconnectedFromServer():
+        pyotherside.send('connected', False)
+
 
     @asyncio.coroutine
     def run_status(loop, snapserver):
@@ -105,26 +112,20 @@ def mon():
 
     try:
         snapserver = _run(create_server(loop, server, port))
-        #loop.run_until_complete(run_cmd(loop, server, port))
 
     except OSError:
         log("Can't connect to %s:%d" %(server, port))
+        OnDisconnectedFromServer()
         return
 
-    for client in snapserver.clients:
-        client.set_callback(OnClientUpdate)
-
-    snapserver.set_new_client_callback(OnNewClient)
-
-    log("Connected?")
-    status = _run(snapserver.status())
-    log(status)
+    OnConnectedToServer()
 
     try:
         loop.run_until_complete(run_status(loop, snapserver))
 
-    except CancelledError:
+    except asyncio.CancelledError:
         pass
 
     log("Exiting!?")
+    OnDisconnectedFromServer()
     loop.close()
