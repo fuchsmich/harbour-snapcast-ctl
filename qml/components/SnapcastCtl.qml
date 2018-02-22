@@ -14,7 +14,7 @@ Python {
     property string log: ""
 
     function getServerStatus() {
-        call('snapcontroller.serverStatus', function() {});
+        call('snapcontroller.getServerStatus', function() {});
     }
 
     function connect() {

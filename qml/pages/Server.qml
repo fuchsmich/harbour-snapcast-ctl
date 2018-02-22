@@ -64,10 +64,16 @@ Page {
                     Repeater {
                         model: snapcastCtl.groups[gCol.gIndex].clients
                         BackgroundItem {
+                            property var client: snapcastCtl.groups[gCol.gIndex].clients[model.index]
                             width: column.width
-                            Label {
-                                text: "Client: " +
-                                      snapcastCtl.groups[gCol.gIndex].clients[model.index].id
+                            Row {
+                                Label {
+                                    text: "Client: " + client.host.name
+                                }
+                                IconButton {
+                                    icon.source: "image://theme/icon-m-speaker" +
+                                                 (client.config.volume.muted ? "mute" : "")
+                                }
                             }
                         }
                     }

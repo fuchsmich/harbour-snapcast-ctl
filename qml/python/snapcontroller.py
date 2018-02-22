@@ -102,7 +102,8 @@ def mon():
 
 
     port = CONTROL_PORT
-    server = '127.0.0.1'
+    #server = '127.0.0.1'
+    server = 'lemonpi'
 
     log("Connecting to %s port %d" %(server, port))
     loop = asyncio.get_event_loop()
