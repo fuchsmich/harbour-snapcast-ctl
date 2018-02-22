@@ -17,6 +17,12 @@ Page {
         // PullDownMenu and PushUpMenu must be declared in SilicaFlickable, SilicaListView or SilicaGridView
         PullDownMenu {
             MenuItem {
+                text: qsTr("Settings")
+                onClicked: pageStack.push(Qt.resolvedUrl("Settings.qml"))
+            }
+        }
+        PullDownMenu {
+            MenuItem {
                 text: qsTr("Services")
                 onClicked: pageStack.push(Qt.resolvedUrl("Services.qml"))
             }
@@ -52,19 +58,20 @@ Page {
                 model: snapcastCtl.groups
                 Column {
                     id: gCol
-                    property int gIndex: model.index
+                    property var group: snapcastCtl.groups[model.index]
                     width: column.width
                     BackgroundItem {
                         width: column.width
                         Label {
                             text: "Group: " +
-                                  snapcastCtl.groups[gCol.gIndex].stream_id
+                                  group.stream_id
                         }
                     }
                     Repeater {
-                        model: snapcastCtl.groups[gCol.gIndex].clients
+                        model: group.clients
                         BackgroundItem {
-                            property var client: snapcastCtl.groups[gCol.gIndex].clients[model.index]
+                            id: cItem
+                            property var client: group.clients[model.index]
                             width: column.width
                             Row {
                                 Label {
@@ -73,6 +80,12 @@ Page {
                                 IconButton {
                                     icon.source: "image://theme/icon-m-speaker" +
                                                  (client.config.volume.muted ? "mute" : "")
+                                    onClicked: snapcastCtl.setClientMute(!client.config.volume.muted)
+                                }
+                                Slider {
+                                    width: cItem.width/4
+                                    maximumValue: 100
+                                    value: client.config.volume.percent
                                 }
                             }
                         }
