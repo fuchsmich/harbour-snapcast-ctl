@@ -59,12 +59,16 @@ class SnapController(object):
 #serverStatus()
 #controller.test()
 
+def getServerStatus():
+    log("getting server status")
+    pyotherside.send('serverStatus', _run(snapserver.status()))
 
+def _run(coro):
+    return loop.run_until_complete(coro)
+
+#eigener Thread für Monitor???
 def mon():
-
-    def _run(coro):
-        return loop.run_until_complete(coro)
-
+    
     def shutdown(signame):
         for task in asyncio.Task.all_tasks():
             task.cancel()
@@ -78,9 +82,6 @@ def mon():
 
     def OnClientUpdate(client):
         log('client {} updated'.format(client.friendly_name))
-
-    def getServerStatus():
-        pyotherside.send('serverStatus', _run(snapserver.status()))
 
     def OnConnectedToServer():
         pyotherside.send('connected', True)
@@ -102,16 +103,18 @@ def mon():
 
 
     port = CONTROL_PORT
-    #server = '127.0.0.1'
-    server = 'lemonpi'
+    server = '127.0.0.1'
+    #server = 'lemonpi'
 
     log("Connecting to %s port %d" %(server, port))
+    global loop
     loop = asyncio.get_event_loop()
 
     for signame in ('SIGINT', 'SIGTERM'):
         loop.add_signal_handler(getattr(signal, signame), functools.partial(shutdown, signame))
 
     try:
+        global snapserver
         snapserver = _run(create_server(loop, server, port))
 
     except OSError:

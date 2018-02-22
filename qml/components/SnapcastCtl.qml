@@ -20,6 +20,12 @@ Python {
     function connect() {
         call('snapcontroller.mon', function() {});
     }
+    
+    function setClientMute(client, value) {
+        var newVolume = client.config.volume
+        newVolume['muted'] = value
+        call('snapcontroller.snapserver.client_volume', [client.id, JSON.stringify(newVolume)], function() {})
+    }
 
     Component.onCompleted: {
         addImportPath(Qt.resolvedUrl('../python'));

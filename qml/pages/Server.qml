@@ -20,8 +20,6 @@ Page {
                 text: qsTr("Settings")
                 onClicked: pageStack.push(Qt.resolvedUrl("Settings.qml"))
             }
-        }
-        PullDownMenu {
             MenuItem {
                 text: qsTr("Services")
                 onClicked: pageStack.push(Qt.resolvedUrl("Services.qml"))
@@ -51,6 +49,12 @@ Page {
                 anchors.horizontalCenter: parent.horizontalCenter
                 onClicked: snapcastCtl.connect()
             }
+            Button {
+                text: "get status"
+//                enabled: snapcastCtl.connected
+                anchors.horizontalCenter: parent.horizontalCenter
+                onClicked: snapcastCtl.getServerStatus()
+            }
             SectionHeader {
                 text: "Groups"
             }
@@ -76,11 +80,12 @@ Page {
                             Row {
                                 Label {
                                     text: "Client: " + client.host.name
+                                    color: client.connected ? Theme.primaryColor : Theme.secondaryColor
                                 }
                                 IconButton {
                                     icon.source: "image://theme/icon-m-speaker" +
                                                  (client.config.volume.muted ? "mute" : "")
-                                    onClicked: snapcastCtl.setClientMute(!client.config.volume.muted)
+                                    onClicked: snapcastCtl.setClientMute(client, !client.config.volume.muted)
                                 }
                                 Slider {
                                     width: cItem.width/4
