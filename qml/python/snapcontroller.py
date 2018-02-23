@@ -1,9 +1,7 @@
 #!/usr/bin/python3
 
 import sys
-#import os
 import asyncio
-#import json
 import pyotherside
 
 from snapcast.control.server import Snapserver, CONTROL_PORT
@@ -12,6 +10,9 @@ from snapcast.control import create_server
 #for mon
 import signal
 import functools
+
+#for ReaderThread
+import threading
 
 def log(string):
     pyotherside.send('log', string)
@@ -66,8 +67,24 @@ def getServerStatus():
 def _run(coro):
     return loop.run_until_complete(coro)
 
+
+class ReaderThread(threading.Thread):
+    def __init__(self, snapserver, stop_event):
+        super(ReaderThread, self).__init__()
+        self.tn = tn
+        self.stop_event = stop_event
+
+    def run(self):
+        while (not self.stop_event.is_set()):
+            response = self.tn.read_until("\r\n", 2)
+            if response:
+                print("received: " + response)
+                jresponse = json.loads(response)
+                print(json.dumps(jresponse, indent=2))
+                print("\r\n")
+
 #eigener Thread für Monitor???
-def mon():
+def connect():
     
     def shutdown(signame):
         for task in asyncio.Task.all_tasks():
