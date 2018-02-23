@@ -59,6 +59,19 @@ Page {
             SectionHeader {
                 text: "Groups"
             }
+            Component {
+                    id: contextMenuComponent
+                    ContextMenu {
+                        MenuItem {
+                            text: "Option 1"
+                            onClicked: console.log("Clicked Option 1")
+                        }
+                        MenuItem {
+                            text: "Option 2"
+                            onClicked: console.log("Clicked Option 2")
+                        }
+                    }
+                }
             Repeater {
                 id: gRep
                 property var groups: (snapcastCtl.serverStatus ? snapcastCtl.serverStatus.server.groups : [])
@@ -66,21 +79,35 @@ Page {
                 Column {
                     id: gCol
                     property var group: gRep.groups[model.index]
+                    property Item contextMenu
                     width: column.width
-                    Row {
+                    Item {
                         id: gItem
+                        property bool menuOpen: gCol.contextMenu != null && contextMenu.parent === gItem
                         x: Theme.horizontalPageMargin
                         width: column.width - 2*Theme.horizontalPageMargin
+                        height: Math.max(gLbl.height, gSetBtn.height) + (menuOpen ? gCol.contextMenu.height : 0)
                         Label {
                             id: gLbl
-                            width: gItem.width - gSetBtn.width
-                            text: "Group: " +
-                                  group.stream_id
+                            anchors {
+                                left: parent.left
+                                verticalCenter: gSetBtn.verticalCenter
+                                right: gSetBtn.left
+                            }
+                            //width: gItem.width - gSetBtn.width
+                            text: group.stream_id
                             truncationMode: TruncationMode.Elide
+                            color: Theme.highlightColor
                         }
                         IconButton {
                             id: gSetBtn
+                            anchors.right: parent.right
                             icon.source: "image://theme/icon-m-developer-mode"
+                            onClicked: {
+                                if (!contextMenu)
+                                    contextMenu = contextMenuComponent.createObject(column)
+                                contextMenu.show(gItem)
+                            }
                         }
                     }
                     Repeater {
@@ -99,7 +126,8 @@ Page {
                             }
                             IconButton {
                                 id: cSetBtn
-                                anchors.top: cItem.top
+                                //anchors.top: cItem.top
+                                anchors.verticalCenter: parent.verticalCenter
                                 anchors.right: cItem.right
                                 icon.source: "image://theme/icon-m-developer-mode"
                             }
@@ -119,7 +147,11 @@ Page {
                                     width: cRow.width - spkrBtn.width
                                     minimumValue: 0
                                     maximumValue: 100
+                                    stepSize: 1
                                     value: client.config.volume.percent
+                                    onDownChanged: {
+                                        if (!down) snapcastCtl.setClientVolume(client, value)
+                                    }
                                 }
                             }
                         }

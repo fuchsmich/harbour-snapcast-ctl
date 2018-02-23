@@ -12,15 +12,14 @@ Python {
 
     property var serverStatus: false
     property string serverString:
-        (connected ? serverStatus.server.server.host.name : "")
+        (connected && serverStatus.server ? serverStatus.server.server.host.name : "")
 
     property string log: ""
 
     property var request: {
         "id": 0,
                 "jsonrpc":"2.0",
-                "method":"" //,
-//                "params":""
+                "method":""
     }
 
     property var responseHandler: {
@@ -49,7 +48,21 @@ Python {
         r['method'] = "Client.SetVolume";
         var id = client.id;
         var newVolume = client.config.volume;
-        newVolume['muted'] = value;
+        newVolume.muted = value;
+        var p = {
+            "id": id,
+            "volume": newVolume
+        };
+        r['params'] = p;
+        doRequest(r);
+    }
+
+    function setClientVolume(client, value) {
+        var r = request;
+        r['method'] = "Client.SetVolume";
+        var id = client.id;
+        var newVolume = client.config.volume;
+        newVolume.percent = value;
         var p = {
             "id": id,
             "volume": newVolume
