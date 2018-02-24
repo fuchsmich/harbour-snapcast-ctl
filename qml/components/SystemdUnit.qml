@@ -1,6 +1,6 @@
 import QtQuick 2.0
+//import Nemo.DBus 2.0
 import org.nemomobile.dbus 2.0
-
 
 DBusInterface {
 // http://nemo-qml-plugin-dbus.readthedocs.io/en/latest/

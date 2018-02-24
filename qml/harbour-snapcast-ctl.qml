@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
-import org.nemomobile.configuration 1.0
+import Nemo.Configuration 1.0
 import org.nemomobile.dbus 2.0
 
 import "pages"
@@ -16,6 +16,10 @@ ApplicationWindow
     ConfigurationGroup {
         id: settings
         path: '/apps/harbour-snapcast-ctl'
+        property string host: "127.0.0.1"
+        property int streamPort: 1704
+        property int controlPort: 1705
+        property bool autostartClient: false
     }
 
     SystemdUnit {

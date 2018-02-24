@@ -40,7 +40,7 @@ Python {
     }
 
     function connect() {
-        call('snapcontroller1.connect', function() {});
+        call('snapcontroller1.connect', [settings.host, settings.controlPort], function() {});
     }
     
     function setClientMute(client, value) {

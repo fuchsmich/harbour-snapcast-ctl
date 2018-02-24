@@ -40,12 +40,14 @@ def doRequest( str ):
     time.sleep(1)
     return;
 
-def connect():
+def connect(host, port):
     global telnet, t_stop, t
     try:
-        telnet = telnetlib.Telnet('127.0.0.1', 1705)
+        telnet = telnetlib.Telnet(host, port)
     except IOError:
         pyotherside.send('connected', False)
+        pyotherside.send('log', "Connection failed.")
+        exit
 
     t_stop = threading.Event()
     t = ReaderThread(telnet, t_stop)
