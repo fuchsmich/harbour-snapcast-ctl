@@ -114,7 +114,7 @@ Python {
         },
         "setClients": function (group, clients) {
             var r = request;
-            r.method = "Client.SetName"
+            r.method = "Group.SetClients"
             r['params'] = {
                 "id": group.id,
                 "clients": clients

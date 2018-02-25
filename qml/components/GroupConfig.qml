@@ -1,10 +1,10 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
-Dialog {
-    id: dialog
+Page {
+    id: page
 
-    acceptDestinationAction: PageStackAction.Pop
+//    acceptDestinationAction: PageStackAction.Pop
 
     allowedOrientations: Orientation.All
     property var groups: snapcastCtl.serverStatus.server.groups
@@ -18,10 +18,10 @@ Dialog {
         Column {
             id: column
 
-            width: dialog.width
+            width: page.width
             spacing: Theme.paddingLarge
 
-            DialogHeader {
+            PageHeader {
                 title: qsTr("Group")
             }
             SectionHeader {
@@ -64,15 +64,16 @@ Dialog {
                                     if ( clientListIndex === -1) clientList.push(client.id);
                                 } else clientList.splice(clientListIndex, 1);
                             }
+
+                            onClicked: {
+                                console.log("sending client list", clientList)
+                                snapcastCtl.group.setClients(groups[gIndex], clientList)
+                            }
                         }
                     }
                 }
             }
         }
-    }
-    onAccepted: {
-        console.log(gIndex, clientList)
-        snapcastCtl.group.setClients(groups[gIndex], clientList)
     }
 }
 

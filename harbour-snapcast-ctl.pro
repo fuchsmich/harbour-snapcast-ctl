@@ -24,7 +24,6 @@ DISTFILES += qml/harbour-snapcast-ctl.qml \
     harbour-snapcast-ctl.desktop \
     qml/components/SystemdUnit.qml \
     qml/components/UnitRow.qml \
-    qml/python/mysnapcastl.py \
     qml/pages/Services.qml \
     qml/pages/Server.qml \
     qml/components/SnapcastCtl1.qml \
