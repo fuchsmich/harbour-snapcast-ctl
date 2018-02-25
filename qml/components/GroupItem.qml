@@ -7,7 +7,7 @@ Item {
     property int gIndex
     property Item contextMenu
     property bool menuOpen: contextMenu != null && contextMenu.parent === gItem
-    height: Math.max(gLbl.height, gSetBtn.height) + (menuOpen ? contextMenu.height : 0)
+    height: gLbl.height + cRow.height + (menuOpen ? contextMenu.height : 0)
     Label {
         id: gLbl
         anchors {
@@ -25,5 +25,27 @@ Item {
         anchors.right: parent.right
         icon.source: "image://theme/icon-m-developer-mode"
         onClicked: pageStack.push(Qt.resolvedUrl("GroupConfig.qml"), {gIndex: gItem.gIndex})
+    }
+    Row{
+        id: cRow
+        anchors.top: gLbl.bottom
+        anchors.left: parent.left
+        anchors.right: gSetBtn.left
+        IconButton {
+            id: spkrBtn
+            icon.source: "image://theme/icon-m-speaker" +
+                         (group.muted ? "-mute" : "")
+            onClicked: snapcastCtl.group.setMuted(group, !group.muted);
+        }
+        Slider {
+            width: cRow.width - spkrBtn.width
+            minimumValue: 0
+            maximumValue: 100
+            stepSize: 1
+            value: snapcastCtl.group.volume(group)
+            onDownChanged: {
+                if (!down) snapcastCtl.group.setVolume(group, value);
+            }
+        }
     }
 }

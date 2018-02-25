@@ -16,7 +16,7 @@ ListItem {
         Label {
             id: cLbl
             anchors.top: item.top
-            text: "Client: " + client.host.name
+            text: client.host.name
             truncationMode: TruncationMode.Elide
             color: client.connected ? Theme.primaryColor : Theme.secondaryColor
         }
@@ -44,7 +44,7 @@ ListItem {
                 id: spkrBtn
                 icon.source: "image://theme/icon-m-speaker" +
                              (client.config.volume.muted ? "-mute" : "")
-                onClicked: snapcastCtl.setClientMute(client, !client.config.volume.muted)
+                onClicked: snapcastCtl.client.setMuted(client, !client.config.volume.muted);//setClientMute(client, !client.config.volume.muted)
             }
             Slider {
                 width: cRow.width - spkrBtn.width
@@ -53,7 +53,7 @@ ListItem {
                 stepSize: 1
                 value: client.config.volume.percent
                 onDownChanged: {
-                    if (!down) snapcastCtl.setClientVolume(client, value)
+                    if (!down) snapcastCtl.client.setVolume(client, client.config.volume.muted, value);//setClientVolume(client, value)
                 }
             }
         }

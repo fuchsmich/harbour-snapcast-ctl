@@ -1,6 +1,0 @@
-snapcast.egg-info*
-*.pyc
-.cache
-.coverage
-.tox
-MANIFEST

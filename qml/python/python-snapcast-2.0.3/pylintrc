@@ -1,6 +1,0 @@
-[MASTER]
-reports=no
-disable=I
-
-[MESSAGES CONTROL]
-disable=duplicate-code

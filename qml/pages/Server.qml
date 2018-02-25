@@ -50,7 +50,7 @@ Page {
                 text: "get status"
                 enabled: snapcastCtl.connected
                 anchors.horizontalCenter: parent.horizontalCenter
-                onClicked: snapcastCtl.getServerStatus()
+                onClicked: snapcastCtl.server.getStatus()
             }
             SectionHeader {
                 text: "Groups"
