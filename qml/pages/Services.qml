@@ -39,9 +39,9 @@ Page {
             UnitRow { unit: snapserverUserService }
             UnitRow { unit: snapserverUserSocket }
 
-            SectionHeader { text: qsTr("Snapserver (System)") }
-            UnitRow { unit: snapserverSystemService }
-            UnitRow { unit: snapserverSystemSocket }
+//            SectionHeader { text: qsTr("Snapserver (System)") }
+//            UnitRow { unit: snapserverSystemService }
+//            UnitRow { unit: snapserverSystemSocket }
 
             SectionHeader { text: qsTr("Avhai") }
             UnitRow { unit: avahiService }

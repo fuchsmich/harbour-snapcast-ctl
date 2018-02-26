@@ -167,15 +167,23 @@ Python {
     Component.onCompleted: {
         addImportPath(Qt.resolvedUrl('../python'));
         setHandler('response', function(response){
-            console.log(response);
+            //console.log(response);
             var jresponse = JSON.parse(response);
+            //responses to requests
             if (jresponse.result && jresponse.id in requestQueue) {
                 var requestedMethod = requestQueue[jresponse.id].method
                 console.log("Got response to " + requestedMethod)
                 if (typeof responseHandler[requestedMethod] == "function")
                     responseHandler[requestedMethod](jresponse.result);
-                else console.log("no responseHandler function for " + requestedMethod)
-                //remove request from queue
+                else {
+                    console.log("no responseHandler function for " + requestedMethod)
+                    //remove request from queue
+                    py.server.getStatus();
+                }
+            }
+            //notifications
+            if (jresponse.method) {
+                py.server.getStatus();
             }
         });
         setHandler('connected', function(status){
