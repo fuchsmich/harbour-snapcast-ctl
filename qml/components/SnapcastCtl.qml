@@ -154,12 +154,12 @@ Python {
     property var requestQueue: []
 
     function connect() {
-        call('snapcontroller1.connect', [settings.host, settings.controlPort], function() {});
+        call('snapcontroller.connect', [settings.host, settings.controlPort], function() {});
     }
     
     function doRequest(request) {
         requestQueue[request.id] = request;
-        call('snapcontroller1.doRequest', [JSON.stringify(request)], function() {});
+        call('snapcontroller.doRequest', [JSON.stringify(request)], function() {});
         py.request['id'] = py.request['id'] + 1;
     }
 
@@ -181,7 +181,7 @@ Python {
         setHandler('connected', function(status){
             py.connected = status;
         });
-        importModule('snapcontroller1', function() {});
+        importModule('snapcontroller', function() {});
     }
 
     onReceived: {

@@ -61,7 +61,7 @@ ApplicationWindow
         bus: DBus.SystemBus
     }
 
-    SnapcastCtl1 {
+    SnapcastCtl {
         id: snapcastCtl
     }
 
