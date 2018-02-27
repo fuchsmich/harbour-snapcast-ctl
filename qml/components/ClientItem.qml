@@ -3,7 +3,7 @@ import Sailfish.Silica 1.0
 
 ListItem {
     id: litem
-    property var client: group.clients[model.index]
+    property var client
     property Item contextMenu
     property bool menuOpen: contextMenu != null && contextMenu.parent === item
     enabled: false
@@ -29,7 +29,7 @@ ListItem {
             onClicked: {
                 if (!contextMenu) {
                     var contextMenuComp = Qt.createComponent("ClientContextMenu.qml");
-                    contextMenu = contextMenuComp.createObject(litem);
+                    contextMenu = contextMenuComp.createObject(litem, { "client": litem.client });
                 }
                 contextMenu.show(item)
             }

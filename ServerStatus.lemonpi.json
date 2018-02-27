@@ -4,7 +4,12 @@
             {
                 "config":{"instance":1,"latency":0,"name":"","volume":{"muted":false,"percent":100}},
 				"connected":true,
-				"host":{"arch":"armv7l","ip":"::ffff:192.168.12.118","mac":"b8:27:eb:1d:d1:42","name":"lemonpi","os":"Arch Linux ARM"},
+                "host":{
+                    "arch":"armv7l",
+                    "ip":"::ffff:192.168.12.118",
+                    "mac":"b8:27:eb:1d:d1:42",
+                    "name":"lemonpi",
+                    "os":"Arch Linux ARM"},
 				"id":"307ddd0ac3f9470597cd1c59bff3da67",
 				"lastSeen":{"sec":1519249163,"usec":282968},
 				"snapclient":{"name":"Snapclient","protocolVersion":2,"version":"0.12.0"}},

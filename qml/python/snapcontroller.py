@@ -47,7 +47,7 @@ def connect(host, port):
     except IOError:
         pyotherside.send('connected', False)
         pyotherside.send('log', "Connection failed.")
-        exit
+        return
 
     t_stop = threading.Event()
     t = ReaderThread(telnet, t_stop)
