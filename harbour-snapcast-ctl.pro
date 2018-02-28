@@ -31,7 +31,8 @@ DISTFILES += qml/harbour-snapcast-ctl.qml \
     qml/components/GroupConfig.qml \
     qml/python/snapcontroller.py \
     qml/components/SnapcastCtl.qml \
-    qml/pages/ClientDetails.qml
+    qml/pages/ClientDetails.qml \
+    qml/components/EditableDetailItem.qml
 
 SAILFISHAPP_ICONS = 86x86 108x108 128x128
 

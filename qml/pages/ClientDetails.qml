@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import "../components"
 
 
 Page {
@@ -20,55 +21,29 @@ Page {
 
             PageHeader {
                 title: qsTr("Details")
+                description: qsTr("Hostname: %1").arg(client.host.name)
             }
 
-            Item {
-                id: cItem
-                width: column.width
-                height: content.height
-                property Component content: detComp
-
-                Loader {
-                    width: parent.width
-                    sourceComponent: cItem.content
+            EditableDetailItem {
+                label: qsTr("Name")
+                value: client.config.name
+                onValueSubmitted: {
+                    console.log(value);
+                    snapcastCtl.client.setName(client, value);
                 }
-
-                Component{
-                    id: detComp
-                    BackgroundItem {
-                        width: cItem.width
-                        DetailItem {
-                            anchors.verticalCenter: cItem.verticalCenter
-                            label: qsTr("Name")
-                            value: client.host.name
-                        }
-                        onClicked: cItem.state = "edit"
-                    }
-                }
-                Component {
-                    id: editComp
-                    TextField {
-                        width: parent.width
-                    }
-                }
-
-                states: [
-                    State {
-                        name: "show"
-                        PropertyChanges {
-                            target: cItem
-                            content: detComp
-                        }
-                    },
-                    State {
-                        name: "edit"
-                        PropertyChanges {
-                            target: cItem
-                            content: editComp
-                        }
-                    }
-                ]
+                inputMethodHints: Qt.ImhEmailCharactersOnly | Qt.ImhNoPredictiveText
             }
+
+            EditableDetailItem {
+                label: qsTr("Latency")
+                value: client.config.latency
+                onValueSubmitted: {
+                    console.log(value);
+                    snapcastCtl.client.setLatency(client, value);
+                }
+                inputMethodHints: Qt.ImhDigitsOnly
+            }
+
             DetailItem {
                 label: qsTr("Volume")
                 value: client.config.volume.percent
