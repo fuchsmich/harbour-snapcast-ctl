@@ -3,8 +3,8 @@ import Sailfish.Silica 1.0
 
 Item {
     id: edi
-    width: column.width
-    height: Theme.itemSizeLarge
+    width: parent.width
+    height: loader.height //Theme.itemSizeLarge
     property Component content: detailItemComp
 
     property string label: ""
@@ -15,15 +15,18 @@ Item {
 
     Loader {
         id: loader
-        width: parent.width
-        height: parent.height
+//        width: parent.width
+//        height: parent.height
         sourceComponent: edi.content
     }
 
     Component{
         id: detailItemComp
         BackgroundItem {
+            width: edi.width
+            height: detailItem.height
             DetailItem {
+                id: detailItem
                 anchors.verticalCenter: parent.verticalCenter
                 label: edi.label
                 value: edi.value
@@ -35,6 +38,7 @@ Item {
         id: editComp
         TextField {
             id: tf
+            width: edi.width
             text: edi.value
             label: edi.label
             focus: true
@@ -65,6 +69,7 @@ Item {
             PropertyChanges {
                 target: edi
                 content: detailItemComp
+                height: loader.item.height
             }
         },
         State {
@@ -72,6 +77,7 @@ Item {
             PropertyChanges {
                 target: edi
                 content: editComp
+                height: loader.item.height
             }
             StateChangeScript {
                 script: {

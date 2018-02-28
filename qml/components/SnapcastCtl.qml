@@ -190,6 +190,7 @@ Python {
             py.connected = status;
         });
         importModule('snapcontroller', function() {});
+        connect();
     }
 
     onReceived: {
