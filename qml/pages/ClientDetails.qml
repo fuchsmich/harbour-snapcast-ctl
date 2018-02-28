@@ -22,9 +22,52 @@ Page {
                 title: qsTr("Details")
             }
 
-            DetailItem {
-                label: qsTr("Name")
-                value: client.host.name
+            Item {
+                id: cItem
+                width: column.width
+                height: content.height
+                property Component content: detComp
+
+                Loader {
+                    width: parent.width
+                    sourceComponent: cItem.content
+                }
+
+                Component{
+                    id: detComp
+                    BackgroundItem {
+                        width: cItem.width
+                        DetailItem {
+                            anchors.verticalCenter: cItem.verticalCenter
+                            label: qsTr("Name")
+                            value: client.host.name
+                        }
+                        onClicked: cItem.state = "edit"
+                    }
+                }
+                Component {
+                    id: editComp
+                    TextField {
+                        width: parent.width
+                    }
+                }
+
+                states: [
+                    State {
+                        name: "show"
+                        PropertyChanges {
+                            target: cItem
+                            content: detComp
+                        }
+                    },
+                    State {
+                        name: "edit"
+                        PropertyChanges {
+                            target: cItem
+                            content: editComp
+                        }
+                    }
+                ]
             }
             DetailItem {
                 label: qsTr("Volume")
