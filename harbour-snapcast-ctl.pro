@@ -16,7 +16,6 @@ CONFIG += sailfishapp_qml
 
 DISTFILES += qml/harbour-snapcast-ctl.qml \
     qml/cover/CoverPage.qml \
-    rpm/harbour-snapcast-ctl.changes.in \
     rpm/harbour-snapcast-ctl.changes.run.in \
     rpm/harbour-snapcast-ctl.spec \
     rpm/harbour-snapcast-ctl.yaml \
@@ -32,7 +31,8 @@ DISTFILES += qml/harbour-snapcast-ctl.qml \
     qml/python/snapcontroller.py \
     qml/components/SnapcastCtl.qml \
     qml/pages/ClientDetails.qml \
-    qml/components/EditableDetailItem.qml
+    qml/components/EditableDetailItem.qml \
+    rpm/harbour-snapcast-ctl.changes
 
 SAILFISHAPP_ICONS = 86x86 108x108 128x128
 

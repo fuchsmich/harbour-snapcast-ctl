@@ -13,7 +13,7 @@ Name:       harbour-snapcast-ctl
 %{!?qtc_make:%define qtc_make make}
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    Snapcast Controller and GUI
-Version:    0.1
+Version:    0.2
 Release:    1
 Group:      Applications/Multimedia
 License:    BSD
@@ -31,7 +31,7 @@ BuildRequires:  pkgconfig(Qt5Quick)
 BuildRequires:  desktop-file-utils
 
 %description
-Short description of my Sailfish OS Application
+GUI for controlling snapacast servers and the local client.
 
 
 %prep
