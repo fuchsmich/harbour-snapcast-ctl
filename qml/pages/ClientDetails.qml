@@ -2,15 +2,6 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 import "../components"
 
-//Name
-//Latenz
-//MAC
-//ID
-//IP
-//Host
-//Betriebssystem
-//Version
-//Zuletzt gesehen
 
 Page {
     id: page
@@ -33,6 +24,7 @@ Page {
                 description: qsTr("Hostname: %1").arg(client.host.name)
             }
 
+            //Name
             EditableDetailItem {
                 label: qsTr("Name")
                 value: client.config.name
@@ -43,6 +35,7 @@ Page {
                 inputMethodHints: Qt.ImhEmailCharactersOnly | Qt.ImhNoPredictiveText
             }
 
+            //Latenz
             EditableDetailItem {
                 label: qsTr("Latency")
                 value: client.config.latency
@@ -52,31 +45,43 @@ Page {
                 }
                 inputMethodHints: Qt.ImhDigitsOnly
             }
-
+            //MAC
             DetailItem {
-                label: qsTr("Volume")
-                value: client.config.volume.percent
+                label: qsTr("MAC")
+                value: client.host.mac
             }
+            //ID
             DetailItem {
-                label: qsTr("Muted")
-                value: client.config.volume.muted ? qsTr("Yes") : qsTr("No")
+                label: qsTr("ID")
+                value: client.id
             }
-            DetailItem {
-                label: qsTr("Connected")
-                value: client.config.connected ? qsTr("Yes") : qsTr("No")
-            }
+            //IP
             DetailItem {
                 label: qsTr("IP-Address")
                 value: client.host.ip
             }
+            //Host
+            //DetailItem {
+            //    label: qsTr("Host")
+            //    value: client.host.name
+            //}
+            //Betriebssystem
             DetailItem {
-                label: qsTr("MAC-Address")
-                value: client.host.mac
+                label: qsTr("OS")
+                value: client.host.os
             }
+            //Version
             DetailItem {
-                label: qsTr("Snapclient-Version")
+                label: qsTr("Version")
                 value: client.snapclient.version
             }
+            //Zuletzt gesehen
+            DetailItem {
+                label: qsTr("Host")
+                value: client.connected ? qsTr("connected") :
+                                                 Date(client.lastSeen.sec*1000).toLocaleString()
+            }
+
         }
     }
 }

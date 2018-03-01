@@ -25,11 +25,12 @@ Item {
         BackgroundItem {
             width: edi.width
             height: detailItem.height
-            DetailItem {
+            MyDetailItem {
                 id: detailItem
                 anchors.verticalCenter: parent.verticalCenter
                 label: edi.label
                 value: edi.value
+                valueColor: Theme.primaryColor
             }
             onClicked: edi.state = "edit"
         }
@@ -86,5 +87,4 @@ Item {
             }
         }
     ]
-    Component.onCompleted: console.log(typeof Qt.ImhDigitsOnly)
 }
