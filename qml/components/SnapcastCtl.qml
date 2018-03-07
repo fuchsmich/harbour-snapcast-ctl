@@ -53,10 +53,11 @@ Python {
         },
         "setLatency": function (client, latency) {
             var r = request;
-            r.method = "Client.SetLatency"
+            r.method = "Client.SetLatency";
+            var l = Number.fromLocaleString(Qt.locale(), latency)
             r['params'] = {
                 "id": client.id,
-                "latency": latency
+                "latency": l
             }
             doRequest(r);
         },

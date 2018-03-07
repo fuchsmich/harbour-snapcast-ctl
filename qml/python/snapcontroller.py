@@ -22,7 +22,7 @@ class ReaderThread(threading.Thread):
         while (not self.stop_event.is_set()):
             response = self.tn.read_until(b"\r\n", 2).decode('ascii')
             if response:
-                #log("received: " + response)
+                log("received: " + response)
                 #jresponse = json.loads(response)
                 #log(json.dumps(jresponse, indent=2))
                 pyotherside.send('response', response)
