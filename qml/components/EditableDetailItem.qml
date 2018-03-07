@@ -53,14 +53,14 @@ Item {
 
             inputMethodHints: edi.inputMethodHints
 
-//            property Timer focusTimer: Timer {
-//                                interval: 200
-//                                repeat: false
-//                                onTriggered: {
-//                                    tf.forceActiveFocus();
-//                                }
-//            }
-            Component.onCompleted: console.log(typeof inputMethodHints, inputMethodHints)
+            property Timer focusTimer: Timer {
+                interval: 200
+                repeat: false
+                onTriggered: {
+                    tf.forceActiveFocus();
+                }
+            }
+            Component.onCompleted: focusTimer.start();
         }
     }
 
@@ -82,7 +82,7 @@ Item {
             }
             StateChangeScript {
                 script: {
-                    loader.item.forceActiveFocus()
+                    //loader.item.focusTimer.start()
                 }
             }
         }
