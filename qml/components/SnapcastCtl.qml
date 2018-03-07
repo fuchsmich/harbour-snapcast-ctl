@@ -72,6 +72,7 @@ Python {
         }
     }
 
+
     property var group: {
         "getStatus": function (group) {
             var r = request;
@@ -134,6 +135,17 @@ Python {
     property string serverString:
         (connected  ? serverStatus.server.server.host.name : "")
 
+    function getClient(id, status) {
+        var groups = serverStatus.server.groups;
+        console.log(id);
+        for (var i=0; i < groups.length; i++) {
+            for (var j=0; j < groups[i].clients.length; j++) {
+                if (groups[i].clients[j].id === id) return groups[i].clients[j];
+            }
+        }
+        return false;
+    }
+
     property string log: ""
 
     property var request: {
@@ -153,6 +165,8 @@ Python {
     }
 
     property var requestQueue: []
+
+
 
     function connect() {
         call('snapcontroller.connect', [settings.host, settings.controlPort], function() {});

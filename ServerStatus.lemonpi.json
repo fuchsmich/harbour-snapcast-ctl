@@ -15,10 +15,10 @@
 				"snapclient":{"name":"Snapclient","protocolVersion":2,"version":"0.12.0"}},
             {"config":{"instance":1,"latency":0,"name":"","volume":{"muted":false,"percent":99}},"connected":true,"host":{"arch":"armv7l","ip":"::ffff:192.168.12.192","mac":"b8:27:eb:2b:c8:0b","name":"pi2","os":"Arch Linux ARM"},"id":"d3316c28fd2b4972800798adc78e01f9","lastSeen":{"sec":1519249163,"usec":901602},"snapclient":{"name":"Snapclient","protocolVersion":2,"version":"0.12.0"}},
             {"config":{"instance":1,"latency":0,"name":"","volume":{"muted":false,"percent":100}},"connected":false,"host":{"arch":"arm64-v8a","ip":"::ffff:192.168.12.142","mac":"00:00:00:00:00:00","name":"android-7ddd3a11acb5bc6c","os":"Android 7.1.1"},"id":"CB512CWGRC","lastSeen":{"sec":1515930051,"usec":690060},"snapclient":{"name":"Snapclient","protocolVersion":2,"version":"0.12.0"}}],
-            "id":"05dc72cc-a92a-2993-dc4a-d355f65b74ad",
-            "muted":false,
-            "name":"",
-            "stream_id":"mpd"
+        "id":"05dc72cc-a92a-2993-dc4a-d355f65b74ad",
+        "muted":false,
+        "name":"",
+        "stream_id":"mpd"
         },{
         "clients":[{
             "config":{"instance":1,"latency":0,

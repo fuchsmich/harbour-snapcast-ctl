@@ -8,7 +8,7 @@ ContextMenu {
     }
     MenuItem {
         text: qsTr("Details")
-        onClicked: pageStack.push(Qt.resolvedUrl("../pages/ClientDetails.qml" ), {"client": client })
+        onClicked: pageStack.push(Qt.resolvedUrl("../pages/ClientDetails.qml" ), {"clientID": client.id })
     }
     MenuItem {
         visible: !client.connected
