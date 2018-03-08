@@ -4,15 +4,19 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 CoverBackground {
-    Label {
-        id: label
-        anchors.centerIn: parent
-        text: qsTr("Snapcast")
+    CoverPlaceholder {
+        icon.source: "cover-icon.png"
+        text: "snapcast"
     }
-    Image {
-        id: icon
-        source: "/usr/share/icons/harbour"
-    }
+    //    Label {
+//        id: label
+//        anchors.centerIn: parent
+//        text: qsTr("Snapcast")
+//    }
+//    Image {
+//        id: icon
+//        source: "/usr/share/icons/harbour"
+//    }
 
 //    CoverActionList {
 //        id: coverAction
