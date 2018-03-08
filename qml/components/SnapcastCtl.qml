@@ -69,6 +69,9 @@ Python {
                 "name": name
             }
             doRequest(r);
+        },
+        "getFriendlyName": function (client) {
+            return (client.config.name === "" ? client.host.name : client.config.name)
         }
     }
 

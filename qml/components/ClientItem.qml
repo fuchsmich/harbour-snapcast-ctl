@@ -16,7 +16,7 @@ ListItem {
         Label {
             id: cLbl
             anchors.top: item.top
-            text: client.host.name
+            text: snapcastCtl.client.getFriendlyName(client)
             truncationMode: TruncationMode.Elide
             color: client.connected ? Theme.primaryColor : Theme.secondaryColor
         }
