@@ -74,8 +74,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.979899"
-     inkscape:cx="40.822401"
-     inkscape:cy="160.02965"
+     inkscape:cx="19.291867"
+     inkscape:cy="206.24677"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -101,7 +101,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -551,10 +551,10 @@
     </g>
     <g
        id="g961-9"
-       inkscape:export-filename="C:\Users\mfuchs\harbour\harbour-snapcast-ctl\icons\128x128\harbour-snapcast-ctl.png"
+       inkscape:export-filename="/home/fuxl/workdir/harbour/harbour-snapcast-ctl/qml/cover/cover-icon.png"
        inkscape:export-xdpi="96"
        inkscape:export-ydpi="96"
-       transform="matrix(3.0498125,0,0,3.0498125,5405.6492,-641.60996)"
+       transform="matrix(2.3255777,0,0,2.3255777,3618.9579,-527.03179)"
        style="fill:#b3b3b3">
       <path
          style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:#b3b3b3;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.49882913;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
@@ -565,7 +565,7 @@
       <polygon
          transform="matrix(0.48312345,0,0,0.48312345,-2535.7278,226.75375)"
          style="fill:#b3b3b3;fill-opacity:1;stroke:#ffffff;stroke-width:5;stroke-linejoin:round;stroke-opacity:1"
-         points="22.235,28.606 6,28.606 6,47.699 21.989,47.699 39.389,62.75 39.389,13.769 "
+         points="21.989,47.699 39.389,62.75 39.389,13.769 22.235,28.606 6,28.606 6,47.699 "
          id="polygon1-3-4" />
       <path
          sodipodi:open="true"

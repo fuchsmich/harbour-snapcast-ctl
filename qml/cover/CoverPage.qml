@@ -4,10 +4,6 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 CoverBackground {
-    //    CoverPlaceholder {
-    //        icon.source: "cover-icon.png"
-    //        text: "snapcast"
-    //    }
     //text should be separated from the cover edges with Theme.paddingLarge on the left and right sides
     //and Theme.paddingMedium on the top and bottom.
     Label {

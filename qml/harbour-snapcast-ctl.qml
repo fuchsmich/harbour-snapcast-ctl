@@ -13,6 +13,9 @@ ApplicationWindow
     cover: Qt.resolvedUrl("cover/CoverPage.qml")
     allowedOrientations: defaultAllowedOrientations
 
+    //state of the app
+    property bool running: Qt.application.active || cover.active
+
     ConfigurationGroup {
         id: settings
         path: '/apps/harbour-snapcast-ctl'
