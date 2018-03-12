@@ -10,24 +10,54 @@ Page {
     allowedOrientations: Orientation.All
 
     SilicaFlickable {
+        id: flick
         anchors.fill: parent
 
         PullDownMenu {
+            MenuItem {
+                text: qsTr("Services")
+                onClicked: pageStack.push(Qt.resolvedUrl("Services.qml"))
+            }
             MenuItem {
                 text: qsTr("Settings")
                 onClicked: pageStack.push(Qt.resolvedUrl("Settings.qml"))
             }
             MenuItem {
-                text: qsTr("Services")
-                onClicked: pageStack.push(Qt.resolvedUrl("Services.qml"))
+                text: qsTr("Connect")
+                visible: !snapcastCtl.connected
+                onClicked: snapcastCtl.connect()
             }
         }
 
-        contentHeight: column.height
+//        contentHeight: column.height
+        Loader {
+            id: contentLoader
+//            width: parent.width
+        }
 
+        Component {
+            id: placeholderComp
+            ViewPlaceholder {
+                enabled: true
+                text: "not connected"
+                hintText: "set the server address and/or connect."
+            }
+        }
+
+        Component {
+            id: connectingComp
+            BusyIndicator {
+                    size: BusyIndicatorSize.Large
+                    anchors.centerIn: parent
+                    running: true
+                }
+        }
+
+        Component {
+            id: contentComp
         Column {
             id: column
-
+//            visible: snapcastCtl.connected
             width: page.width
             spacing: Theme.paddingLarge
             PageHeader {
@@ -36,21 +66,21 @@ Page {
 
             }
 
-            SectionHeader {
-                text: qsTr("Server")
-            }
-            Button {
-                text: "connect"
-                enabled: !snapcastCtl.connected
-                anchors.horizontalCenter: parent.horizontalCenter
-                onClicked: snapcastCtl.connect()
-            }
-            Button {
-                text: "get status"
-                enabled: snapcastCtl.connected
-                anchors.horizontalCenter: parent.horizontalCenter
-                onClicked: snapcastCtl.server.getStatus()
-            }
+//            SectionHeader {
+//                text: qsTr("Server")
+//            }
+//            Button {
+//                text: "connect"
+//                enabled: !snapcastCtl.connected
+//                anchors.horizontalCenter: parent.horizontalCenter
+//                onClicked: snapcastCtl.connect()
+//            }
+//            Button {
+//                text: "get status"
+//                enabled: snapcastCtl.connected
+//                anchors.horizontalCenter: parent.horizontalCenter
+//                onClicked: snapcastCtl.server.getStatus()
+//            }
             SectionHeader {
                 text: "Groups"
             }
@@ -90,6 +120,38 @@ Page {
                 color: Theme.secondaryColor
             }
         }
+        }
+
+        states: [
+            State {
+                name: "notConnected"
+                when: !snapcastCtl.connected && !snapcastCtl.connecting
+                PropertyChanges {
+                    target: contentLoader
+                    sourceComponent: placeholderComp
+                }
+            },
+            State {
+                name: "connecting"
+                when: snapcastCtl.connecting
+                PropertyChanges {
+                    target: contentLoader
+                    sourceComponent: contentComp
+                }
+            },
+            State {
+                name: "connected"
+                when: snapcastCtl.connected && !snapcastCtl.connecting
+                PropertyChanges {
+                    target: contentLoader
+                    sourceComponent: contentComp
+                }
+                PropertyChanges {
+                    target: flick
+                    contentHeight: contentLoader.item.height
+                }
+            }
+        ]
     }
 }
 

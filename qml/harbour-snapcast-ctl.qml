@@ -13,8 +13,17 @@ ApplicationWindow
     cover: Qt.resolvedUrl("cover/CoverPage.qml")
     allowedOrientations: defaultAllowedOrientations
 
-    //state of the app
-    property bool running: Qt.application.active || cover.active
+    //state of the app ??
+    property bool running: Qt.application.active //|| cover.active
+    onRunningChanged: if (running) snapcastCtl.server.getRPCVersion();
+
+    Connections {
+        target: pageStack
+        onCurrentPageChanged: {
+            console.log(pageStack.currentPage);
+            snapcastCtl.server.getStatus();
+        }
+    }
 
     ConfigurationGroup {
         id: settings

@@ -4,6 +4,12 @@ import io.thp.pyotherside 1.4
 Python {
     id: py
 
+    property Timer statusTimer: Timer {
+        interval: 3000
+        repeat: connected
+        onTriggered: if (connected) server.getStatus()
+    }
+
     property var server: {
         "status": false,
         "getRPCVersion": function () {
@@ -15,6 +21,7 @@ Python {
             var r = request;
             r.method = "Server.GetStatus"
             doRequest(r);
+//            statusTimer.restart();
         },
         "deleteClient": function (id) {
             var r = request;
@@ -130,9 +137,13 @@ Python {
 
     property bool connected: false
     onConnectedChanged: {
-        if (connected) server.getStatus();
+        if (connected) {
+            connecting = false;
+            server.getStatus();
+        }
         else server.status = false;
     }
+    property bool connecting: false
 
     property var serverStatus: false
     property string serverString:
@@ -172,13 +183,16 @@ Python {
 
 
     function connect() {
+        connecting = true;
         call('snapcontroller.connect', [settings.host, settings.controlPort], function() {});
     }
     
     function doRequest(request) {
-        requestQueue[request.id] = request;
-        call('snapcontroller.doRequest', [JSON.stringify(request)], function() {});
-        py.request['id'] = py.request['id'] + 1;
+        if (connected) {
+            requestQueue[request.id] = request;
+            call('snapcontroller.doRequest', [JSON.stringify(request)], function() {});
+            py.request['id'] = py.request['id'] + 1;
+        }
     }
 
 
@@ -208,7 +222,7 @@ Python {
             py.connected = status;
         });
         importModule('snapcontroller', function() {});
-        connect();
+//        connect();
     }
 
     onReceived: {

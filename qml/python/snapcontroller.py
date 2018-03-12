@@ -28,17 +28,19 @@ class ReaderThread(threading.Thread):
                 pyotherside.send('response', response)
 
 
-def doRequest( str ):
+def doRequest(str):
     pyotherside.send('log', "sending: " + str)
     str = str + "\r\n"
-    try:
-        telnet.write(str.encode('ascii'))
-    except IOError:
-        log("Couldn't write")
+    if 'telnet' in globals():
+        try:
+            telnet.write(str.encode('ascii'))
+            time.sleep(1)
+        except IOError:
+            log("Couldn't write")
+            pyotherside.send('connected', False)
+    else:
         pyotherside.send('connected', False)
 
-    time.sleep(1)
-    return;
 
 def connect(host, port):
     global telnet, t_stop, t
@@ -64,4 +66,4 @@ def dest():
     t.join()
     telnet.close
 
-pyotherside.send('log', sys.version)
+#pyotherside.send('log', sys.version)

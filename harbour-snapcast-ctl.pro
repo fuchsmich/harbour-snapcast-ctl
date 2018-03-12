@@ -27,7 +27,7 @@ DISTFILES += qml/harbour-snapcast-ctl.qml \
     qml/pages/Server.qml \
     qml/pages/Settings.qml \
     qml/components/ClientItem.qml \
-    qml/components/GroupConfig.qml \
+    qml/pages/GroupConfig.qml \
     qml/python/snapcontroller.py \
     qml/components/SnapcastCtl.qml \
     qml/pages/ClientDetails.qml \
